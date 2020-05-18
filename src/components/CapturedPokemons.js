@@ -1,16 +1,29 @@
-import React,{ useState } from 'react';
+import React,{ useContext} from 'react';
+import { PokemonContext } from '../PokemonContext';
+import { listPokemons } from './listPokemons.js';
 
 const CapturedPokemons = () =>{
-    const [pokemons,setCapturedPokemons] = useState([]);
+    // const [pokemons] = useState([]);
+    const { capturedPokemons, release } = useContext(PokemonContext);
+ 
     return (
-        <div className = "pokemons-list">
+        <div className = "captured-pokemons">
             <h2>Captured Pokemons</h2>
-            {pokemons.map((pokemon) =>
-            <div key = {`${pokemon.id} - ${pokemon.name}`}>
-                <p>{pokemon.id}</p>
-                <p>{pokemon.name}</p>
-            </div>
-            )}
+            <table>
+            <thead>
+                <tr>
+                    <th>Pokemon</th>
+                    <th>Release</th>
+                </tr>
+            </thead>
+                <tbody>
+                {listPokemons({
+                    pokemons:capturedPokemons,
+                    onClick:release,
+                    buttonLabel: '-'
+                })}
+            </tbody>
+            </table>
         </div>
     );
 

@@ -1,14 +1,21 @@
 import React from 'react';
 import PokemonsList from './components/PokemonsList';
 import CapturedPokemons from './components/CapturedPokemons';
-import './App.css';
+import { PokemonProvider } from './PokemonContext';
+import PokemonForm from './components/PokemonForm';
 
 function App() {
   return (
-    <div className="App">
-      <PokemonsList></PokemonsList>
-      <CapturedPokemons></CapturedPokemons>
+    <PokemonProvider>
+    <div className="main">
+    <PokemonsList/>
+    <CapturedPokemons/>
     </div>
+    <div className = 'form-wrapper'>
+      <PokemonForm/>
+    </div>
+    </PokemonProvider>
+   
   );
 }
 

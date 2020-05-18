@@ -1,23 +1,43 @@
-import React,{ useState } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { PokemonContext } from '../PokemonContext';
+import { listPokemons } from './listPokemons';
 
-const PokemonList = () =>{
-    const [pokemons,setPokemon] = useState([
-        {id:1,name:'Bulbasaur'},
-        {id:2,name:'Charmander'},
-        {id:3,name:'Squirtle'},
-    ])
+const url = "https://pokeapi.co/api/v2/pokemon";
 
-    return (
-        <div className = "pokemons-list">
-            <h2>Pokemons List</h2>
-            {pokemons.map((pokemon) =>
-            <div key = {`${pokemon.id} - ${pokemon.name}`}>
-                <p>{pokemon.id}</p>
-                <p>{pokemon.name}</p>
-            </div>
-            )}
-        </div>
-    );
+const PokemonsList = () => {
+  const { pokemons, capture, addPokemons } = useContext(PokemonContext);
 
+  useEffect(() => {
+    const fetchPokemons = async () => {
+      const response = await fetch(url);
+      const data = await response.json();
+      addPokemons(data.results);
+    };
+
+    fetchPokemons();
+  }, [addPokemons]);
+
+  return (
+    <div className="pokemons-list">
+      <h2>Pokemons List</h2>
+
+      <table>
+      <thead>
+        <tr>
+          <th>Pokemon</th>
+          <th>Capture</th>
+        </tr>
+      </thead>
+      <tbody>
+        {listPokemons({
+          pokemons,
+          onClick: capture,
+          buttonLabel: '+'
+        })}
+      </tbody>  
+      </table>
+    </div>
+  )
 }
-export default PokemonList;
+
+export default PokemonsList;
